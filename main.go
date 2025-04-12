@@ -19,8 +19,8 @@ func main() {
 		var display base.IDisplay
 
 		// Define used hardware
-		sensor = &sensorpkg.SGP30Sensor{}
-		display = &displaypkg.SH1107Display{}
+		sensor = &sensorpkg.MockSensor{}
+		display = &displaypkg.MockDisplay{}
 
 		// SGP30 sensor setup
 		if err := sensor.Init(r); err != nil {
