@@ -38,10 +38,10 @@ func (s *SGP30Sensor) Read() (*base.SensorReadout, error) {
 		return nil, err
 	}
 
-	readout := base.SensorReadout{
+	readout := &base.SensorReadout{
 		ECO2: int(data[0])<<8 | int(data[1]),
 		TVOC: int(data[2])<<8 | int(data[3]),
 	}
 
-	return &readout, nil
+	return readout, nil
 }

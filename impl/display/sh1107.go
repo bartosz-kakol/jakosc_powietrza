@@ -47,8 +47,6 @@ func (d *SH1107Display) Init(adaptor *raspi.Adaptor) error {
 }
 
 func (d *SH1107Display) Show(data base.SensorReadout) error {
-	//fmt.Printf("eCO2: %d ppm, TVOC: %d ppb\n", data.ECO2, data.TVOC)
-
 	oledCommands := [][]byte{
 		append([]byte{0x40}, []byte(fmt.Sprintf("eCO2: %d ppm", data.ECO2))...),
 		append([]byte{0x40}, []byte(fmt.Sprintf("TVOC: %d ppb", data.TVOC))...),
