@@ -19,8 +19,8 @@ func (s *MockSensor) Init(adaptor *raspi.Adaptor) error {
 
 func (s *MockSensor) Read() (*base.SensorReadout, error) {
 	readout := &base.SensorReadout{
-		ECO2: 500 + rand.Intn(21) - 10,
-		TVOC: 1000 + rand.Intn(21) - 10,
+		ECO2: 1400 + rand.Intn(800) - 400,
+		TVOC: 400 + rand.Intn(400) - 200,
 	}
 
 	return readout, nil

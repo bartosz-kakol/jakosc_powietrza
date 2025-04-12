@@ -3,6 +3,7 @@ package main
 import (
 	"jakosc_powietrza/base"
 	displaypkg "jakosc_powietrza/impl/display"
+	judgepkg "jakosc_powietrza/impl/judge"
 	sensorpkg "jakosc_powietrza/impl/sensor"
 	"log"
 	"time"
@@ -16,19 +17,28 @@ func main() {
 
 	work := func() {
 		var sensor base.ISensor
+		var judge base.Judge
 		var display base.IDisplay
 
 		// Define used hardware
 		sensor = &sensorpkg.MockSensor{}
 		display = &displaypkg.MockDisplay{}
 
-		// SGP30 sensor setup
+		// Configure readout data judge
+		judge = &judgepkg.BasicJudge{
+			MediumCO2Level:    1000,
+			CriticalCO2Level:  2000,
+			MediumTVOCLevel:   200,
+			CriticalTVOCLevel: 500,
+		}
+
+		// Sensor setup
 		if err := sensor.Init(r); err != nil {
 			log.Fatalf("Failed to init sensor: %v", err)
 			return
 		}
 
-		// SH1107 OLED setup
+		// OLED display setup
 		if err := display.Init(r); err != nil {
 			log.Fatalf("Failed to init display: %v", err)
 			return
@@ -40,7 +50,9 @@ func main() {
 				log.Printf("Error reading air quality data: %v", err)
 			}
 
-			if err := display.Show(*readout); err != nil {
+			judgement := judge.JudgeReadout(readout)
+
+			if err := display.Show(*readout, *judgement); err != nil {
 				log.Printf("Error writing to OLED: %v", err)
 			}
 

@@ -3,8 +3,8 @@ package base
 import "gobot.io/x/gobot/platforms/raspi"
 
 type SensorReadout struct {
-	ECO2 int
-	TVOC int
+	ECO2 int // Estimated CO2 levels (ppm units)
+	TVOC int // Total volatile organic compounds levels (ppb units)
 }
 
 type ISensor interface {
@@ -14,5 +14,5 @@ type ISensor interface {
 
 type IDisplay interface {
 	Init(adaptor *raspi.Adaptor) error
-	Show(data SensorReadout) error
+	Show(data SensorReadout, judgement Judgement) error
 }
